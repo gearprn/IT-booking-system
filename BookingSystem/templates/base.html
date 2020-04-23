@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Booking System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
         .btn, .form-control {
             border-radius: 0px;
+        }
+        body{
+            font-family: 'Mitr', sans-serif;
         }
     </style>
 </head>
@@ -23,6 +27,8 @@
                     <img src="{% static 'images/hobbies-and-free-time (1).png' %}" alt="" width="30"> 
                 </a>
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <img src="{% static 'booking.png'%}" width="50" height="50" alt="">
+
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
                     </li>
