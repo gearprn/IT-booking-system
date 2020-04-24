@@ -6,19 +6,19 @@ class Room(models.Model):
     name = models.CharField(max_length=255)
     location = models.CharField(max_length=255)
 
-    availableStatus = (
+    available_Status = (
         ('AVAILABLE', 'Available'),
         ('UNDER MAINTENANCE', 'Under Maintenance')
     )
 
+    availableStatus = models.CharField(max_length=17, choices=available_Status, default='AVAILABLE')
+
     size = models.IntegerField()
-    photos = models.ImageField(upload_to='RoomPhotos')
+    photo = models.ImageField(upload_to='RoomPhotos')
     roomType = models.ForeignKey('mainapp.RoomType', on_delete=models.CASCADE)
 
 class RoomType(models.Model):
     typeTitle = models.CharField(max_length=255)
-
-
 
 class Facility(models.Model):
     name = models.CharField(max_length=255)

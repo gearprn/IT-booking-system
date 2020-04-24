@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mt-4">
+        <h4>สร้างคำร้องขอใช้สถานที่</h4>
+        <hr>
+        <div class="row">
+            <div class="col-4">
+                <img src="{{ room.photo.url }}" class="w-100 event-img">
+            </div>
+            <div class="col-8">
+                <form action="{% url 'index'%}" method="post">
+                {% csrf_token %}
+
+                    <div class="row mt-3">
+                        <div class="col-sm-12 col-md-6">
+                            <label for="email">ชื่อโครงการ</label>
+                            <input type="text" name="title" value="ทำไมต้องถาม" class="form-control" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-sm-12 col-md-6">
+                            <label for="username">ชื่อผู้ขอ</label>
+                            <small>เดี๋ยวมาเพิ่มข้อมูลของผู้ขอทีหลัง</small>
+                            <input type="text" name="name" value="ภูริณัฐ อ่วมรอด" class="form-control" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-sm-12 col-md-6">
+                            <label for="username">จุดประสงค์การใช้สถานที่</label>
+                            <input type="text" name="purpose" value="ก็อยากจะใช้อะ" class="form-control" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mt-3">
+                        <div class="col-sm-12 col-md-3">
+                            <label for="username">ตั้งเเต่วันที่</label>
+                            <input type="date" name="startDate" class="form-control" required autocomplete="off">
+                        </div>
+                        <div class="col-sm-12 col-md-3">
+                            <label for="username">จนถึงวันที่</label>
+                            <input type="date" name="endDate" class="form-control" required autocomplete="off">
+                        </div>
+
+                        <div class="col-sm-12 col-md-3">
+                            <label for="username">ทุกวันเวลา</label>
+                            <input type="time" name="startTime" class="form-control" required autocomplete="off">
+                        </div>
+
+                        <div class="col-sm-12 col-md-3">
+                            <label for="username">จนถึงเวลา</label>
+                            <input type="time" name="endTime" class="form-control" required autocomplete="off">
+                        </div>
+                        
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-outline-secondary mt-3">สร้างคำร้องขอ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style scoped>
+        .event-img {
+            width: 100%;
+            height: 399px;
+            object-fit: cover;
+        }
+    </style>
+{% endblock content %}

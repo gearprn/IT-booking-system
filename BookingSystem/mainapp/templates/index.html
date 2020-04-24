@@ -5,9 +5,28 @@
         <hr>
         <div class="row">
             <div class="col">ชื่อ</div>
+            <div class="col">ประเภท</div>
             <div class="col">สถานที่</div>
             <div class="col">สถานะ</div>
             <div class="col"></div>
+        </div>
+        <div class="row mt-2">
+            {% for room in rooms %}
+                <div class="col my-auto">{{room.name}}</div>
+                <div class="col my-auto">{{room.roomType.typeTitle}}</div>
+                <div class="col my-auto">{{room.location}}</div>
+                {% if room.availableStatus == 'AVAILABLE' %}
+                    <div class="col my-auto">ใช้งานได้</div>
+                    <div class="col">
+                        <a class="btn btn-outline-secondary" href="{% url 'book' roomId=room.id %}">จอง</a>
+                    </div>
+                {% else %}
+                    <div class="col my-auto">อยู่ระหว่างการปรับปรุง</div>
+                    <div class="col">
+                        <a class="btn btn-outline-secondary disabled" href="">จอง</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
