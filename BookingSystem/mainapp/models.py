@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -28,3 +29,13 @@ class RoomType_Facility(models.Model):
     roomType = models.ForeignKey('mainapp.RoomType', on_delete=models.CASCADE)
     facility = models.ForeignKey('mainapp.Facility', on_delete=models.CASCADE)
     amount = models.IntegerField()
+
+class Booking(models.Model):
+    title = models.CharField(max_length=255)
+    startTime = models.TimeField()
+    endTime = models.TimeField()
+    startDate = models.DateField()
+    endDate = models.DateField
+    bookDate = models.DateTimeField()
+    purpose = models.TextField()
+    bookBy = models.ForeignKey(User, on_delete=models.CASCADE)
