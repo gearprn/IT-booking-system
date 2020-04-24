@@ -35,7 +35,7 @@ class Booking(models.Model):
     startTime = models.TimeField()
     endTime = models.TimeField()
     startDate = models.DateField()
-    endDate = models.DateField
+    endDate = models.DateField()
     bookDate = models.DateTimeField()
     purpose = models.TextField()
     bookBy = models.ForeignKey(User, on_delete=models.CASCADE)

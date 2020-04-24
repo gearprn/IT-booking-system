@@ -8,7 +8,7 @@
                 <img src="{{ room.photo.url }}" class="w-100 event-img">
             </div>
             <div class="col-8">
-                <form action="{% url 'index'%}" method="post">
+                <form action="{% url 'createBook' roomId=room.id %}" method="post">
                 {% csrf_token %}
 
                     <div class="row mt-3">
@@ -56,9 +56,6 @@
                         </div>
                         
                     </div>
-
-
-
                     <button type="submit" class="btn btn-outline-secondary mt-3">สร้างคำร้องขอ</button>
                 </form>
             </div>
