@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="mt-4">
+        <h4>Profile</h4>
+        <hr>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            {% comment %} <img class='w-75' src="{{}}"> {% endcomment %}
+        </div>
+
+        <div class="col-8">
+            <br><br>
+            <p>ชื่อ-สกุล : {{user.first_name}} {{user.last_name}}</p>
+            {% comment %} <p>ชั้นปี : {{}}</p> {% endcomment %}
+            <p>Email : {{user.email}}</p>
+        </div>
+    </div>
+{% endblock %}

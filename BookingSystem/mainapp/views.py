@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from mainapp.models import Room, Booking
 from datetime import date
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -40,4 +41,10 @@ def createBook(request, roomId):
     )
     return redirect('index')
 
+def profile(request):
+    context = {}
+    user = User.objects.get(id= 1)
+    # user = User.objects.get(id= request.user.id)
+    context['user'] = user
     
+    return render(request, template_name='profile.html', context=context)
