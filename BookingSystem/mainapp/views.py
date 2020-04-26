@@ -49,8 +49,8 @@ def createBook(request, roomId):
 
 def profile(request):
     context = {}
-    user = User.objects.get(id= 1)
-    # user = User.objects.get(id= request.user.id)
+    # user = User.objects.get(id= 1)
+    user = User.objects.get(id= request.user.id)
     context['user'] = user
     
     return render(request, template_name='profile.html', context=context)

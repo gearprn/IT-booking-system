@@ -41,5 +41,5 @@ class Booking(models.Model):
     bookBy = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Student(models.Model):
-    year = models.IntegerField(max_length=1)
+    year = models.IntegerField()
     studentId = models.CharField(max_length=10)
