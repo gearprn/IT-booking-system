@@ -86,8 +86,12 @@ def createBook(request, roomId):
 
 def profile(request):
     context = {}
-    # user = User.objects.get(id= 1)
     user = User.objects.get(id= request.user.id)
     context['user'] = user
-    
+
+    studentId = User.objects.get(id= request.user.id)
+
+    year = User.objects.get(id= request.user.id)
+
+
     return render(request, template_name='profile.html', context=context)
