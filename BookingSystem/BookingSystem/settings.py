@@ -148,7 +148,7 @@ AUTHENTICATION_BACKENDS = (
  'allauth.account.auth_backends.AuthenticationBackend',
  )
 
-SITE_ID = 2
+SITE_ID = 3
 # after login success where to go
 LOGIN_REDIRECT_URL = '/'
 
@@ -165,3 +165,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+# set login required 
+LOGIN_URL = '/accounts/google/login/'
+LOGIN_REDIRECT_URL = '/'
