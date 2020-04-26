@@ -91,9 +91,7 @@ def profile(request):
     user = User.objects.get(id= request.user.id)
     context['user'] = user
 
-    studentId = User.objects.get(id= request.user.id)
-
-    year = User.objects.get(id= request.user.id)
-
-
+    studentId = Student.objects.get(user_id=request.user.id)
+    context['studentId'] = studentId
+    
     return render(request, template_name='profile.html', context=context)
