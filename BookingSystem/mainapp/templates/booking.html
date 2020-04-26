@@ -9,16 +9,27 @@
                 <img src="{{ room.photo.url }}" class="w-100 event-img">
             </div>
             <div class="col-8 p-4 bg-gray">
-                <p>{{ room.name }}</p>
-                <p>{{ room.location }}</p>
-                <p>{{ room.availableStatus }}</p>
-                <p>{{ room.size }}</p>
-                <p>{{ room.roomType.typeTitle }}</p>
-                {% for fac in facilities %}
-                    <p>{{fac.facility.name}} : {{fac.amount}}</p>
-                {% endfor %}
+                <p>{{ room.name }} <small>({{ room.roomType.typeTitle }})</small></p>
+                <p>ตำเเหน่ง: {{ room.location }}</p>
+                {% if room.availableStatus == 'AVAILABLE' %}
+                    <p>สถานะ: ใช้งานได้</p>
+                {% else %}
+                    <p>สถานะ: อยู่ระหว่างการปรับปรุง</p>
+                {% endif %}
+                <p>รองรับคนได้: {{ room.size }} คน</p>
+                <p>สิ่งอำนวยความสะดวก</p>
+                <ul>
+                    {% for fac in facilities %}
+                        <li>{{fac.facility.name}} : {{fac.amount}} เครื่อง</li>
+                    {% endfor %}
+                </ul>
             </div>
-                {% comment %} <form action="{% url 'createBook' roomId=room.id %}" method="post">
+        </div>
+        <hr>
+
+        <div class="row mb-5">
+            <div class="col-12">
+                <form action="{% url 'createBook' roomId=room.id %}" method="post">
                 {% csrf_token %}
 
                     <div class="row mt-3">
@@ -72,7 +83,8 @@
                         <a class="btn btn-outline-secondary mt-3" href="{% provider_login_url 'google' %}">เข้าสู้ระบบ</a>
                     {% endif %}
 
-                </form> {% endcomment %}
+                </form>
+            </div>
         </div>
     </div>
     <style scoped>
