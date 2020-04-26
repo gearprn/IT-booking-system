@@ -165,3 +165,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+# set login required 
+LOGIN_URL = '/accounts/google/login/'
+LOGIN_REDIRECT_URL = '/'
