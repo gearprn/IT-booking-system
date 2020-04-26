@@ -16,11 +16,10 @@ def sign_out(request):
 
 def index(request):
     context = {}
-    
+
     # get all room
     rooms = Room.objects.all()
     context['rooms'] = rooms
-    return render(request, template_name='index.html', context=context)
 
     if request.user.is_authenticated:
         print('Authenticated.')
@@ -39,12 +38,15 @@ def index(request):
                 year = 1 if year == 0 else year
                 print(year, stdId)
                 std = Student.objects.create(
+                    user_id = request.user.id,
                     year = year,
                     studentId = stdId
                 )
             else:
                 # do nothing
                 print('User\'s personnel')
+        
+        return render(request, template_name='index.html', context=context)
 
     # user is unauthenticated
     else:
