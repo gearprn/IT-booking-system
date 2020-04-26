@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from mainapp.models import Room, Booking, Student, RoomType_Facility
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from allauth.socialaccount.models import SocialAccount
 
 import datetime 
 
@@ -88,10 +89,17 @@ def createBook(request, roomId):
 
 def profile(request):
     context = {}
+
+    # get user
     user = User.objects.get(id= request.user.id)
     context['user'] = user
 
+    # get student data
     studentId = Student.objects.get(user_id=request.user.id)
     context['studentId'] = studentId
-    
+
+    # get image profile
+    socialAccount = SocialAccount.objects.get(user_id=request.user.id)
+    context['socialAccount'] =socialAccount
+
     return render(request, template_name='profile.html', context=context)
