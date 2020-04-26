@@ -12,11 +12,19 @@ def sign_out(request):
     return redirect('index')
 
 def index(request):
-    context = {}
 
     # get all room
-    rooms = Room.objects.all()
-    context['rooms'] = rooms
+    rooms = Room.objects.all() 
+
+    # search
+    search = request.GET.get('search', '')
+    if search != '':
+        rooms = Room.objects.filter(name__icontains=search)
+    
+    context = {
+        'rooms': rooms,
+        'search' : search,
+    }
 
     return render(request, template_name='index.html', context=context)
 
