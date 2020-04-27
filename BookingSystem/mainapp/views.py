@@ -96,11 +96,14 @@ def createBook(request, roomId):
     endDate = datetime.datetime.strptime(request.POST.get('endDate'), '%Y-%m-%d').date()
 
     # request timeobject
-    # startTime = datetime.datetime
-    # endTime = datetime.datetime
-    print(request.POST.get('startTime'))
+    startTime = datetime.datetime.strptime(request.POST.get('startTime'), '%Y-%m-%d').time()
+    endTime = datetime.datetime.strptime(request.POST.get('endTime'), '%Y-%m-%d').time()
 
     # if request date is past date or end date less than start date
+    if (startDate < today) or (endDate < today) or (today < startDate):
+        error(request, 'กรุณาใส่วันให้ถูกต้อง')
+        return redirect('/book/'+str(roomId))
+
     if (startDate < today) or (endDate < today) or (today < startDate):
         error(request, 'กรุณาใส่วันให้ถูกต้อง')
         return redirect('/book/'+str(roomId))
