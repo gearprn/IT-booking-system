@@ -1,11 +1,12 @@
 from django.contrib.auth import logout
-from django.shortcuts import render, redirect
-from mainapp.models import Room, Booking, Student, RoomType_Facility
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.messages import error
+from django.shortcuts import render, redirect
 from allauth.socialaccount.models import SocialAccount
 
-import datetime 
+import datetime
+from mainapp.models import Room, Booking, Student, RoomType_Facility
 
 # Create your views here.
 
@@ -72,9 +73,14 @@ def book(request, roomId):
     # get specific room for booking
     room = Room.objects.get(id=roomId)
     facility = RoomType_Facility.objects.filter(roomType_id=room.roomType.id)
-
+    
     context['room'] = room
     context['facilities'] = facility
+
+    if request.user.is_authenticated:
+        student = Student.objects.get(user_id=request.user.id)
+        context['student'] = student
+    
 
     return render(request, template_name='booking.html', context=context)
 
@@ -82,21 +88,45 @@ def book(request, roomId):
 def createBook(request, roomId):
     context = {}
 
-    booking = Booking.objects.create(
-        # request data
-        title = request.POST.get('title'),
-        purpose = request.POST.get('purpose'),
+    # todat dateobject
+    today = datetime.datetime.now().date()
+
+    # request dateobject
+    startDate = datetime.datetime.strptime(request.POST.get('startDate'), '%Y-%m-%d').date()
+    endDate = datetime.datetime.strptime(request.POST.get('endDate'), '%Y-%m-%d').date()
+
+    # request timeobject
+    # startTime = datetime.datetime
+    # endTime = datetime.datetime
+    print(request.POST.get('startTime'))
+
+    # if request date is past date or end date less than start date
+    if (startDate < today) or (endDate < today) or (today < startDate):
+        error(request, 'กรุณาใส่วันให้ถูกต้อง')
+        return redirect('/book/'+str(roomId))
+
+    # booking = Booking.objects.create(
+    #     # request data
+    #     title = request.POST.get('title'),
+    #     purpose = request.POST.get('purpose'),
         
-        # time data
-        startDate = request.POST.get('startDate'),
-        endDate = request.POST.get('endDate'),
-        startTime = request.POST.get('startTime'),
-        endTime = request.POST.get('endTime'),
-        bookDate = datetime.datetime.now(),
+    #     # time data
+    #     startDate = request.POST.get('startDate'),
+    #     endDate = request.POST.get('endDate'),
+    #     startTime = request.POST.get('startTime'),
+    #     endTime = request.POST.get('endTime'),
+    #     bookDate = datetime.datetime.now(),
         
-        # booker date
-        bookBy_id = request.user.id
-    )
+    #     # user that curently signed in data (maybe not the booker himself)
+    #     bookBy_id = request.user.id,
+
+    #     # booker data
+    #     bookerFirstName = request.POST.get('name'),
+    #     bookerLastName = request.POST.get('lastname'),
+    #     bookerStudentId = request.POST.get('sid'),
+    #     bookerYear = request.POST.get('year'),
+    #     bookerBranch = request.POST.get('branch'),
+    # )
     return redirect('index')
 
 def profile(request):
@@ -113,5 +143,11 @@ def profile(request):
     # get image profile
     socialAccount = SocialAccount.objects.get(user_id=request.user.id)
     context['socialAccount'] =socialAccount
+
+    booking = Booking.objects.filter(bookBy_id=request.user.id)
+    context['booking'] =booking
+
+    track = Booking.objects.filter(bookBy_id=request.user.id)
+    context['track'] =track
 
     return render(request, template_name='profile.html', context=context)
