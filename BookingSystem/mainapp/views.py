@@ -68,9 +68,11 @@ def book(request, roomId):
     # get specific room for booking
     room = Room.objects.get(id=roomId)
     facility = RoomType_Facility.objects.filter(roomType_id=room.roomType.id)
+    student = Student.objects.get(user_id=request.user.id)
 
     context['room'] = room
     context['facilities'] = facility
+    context['student'] = student
 
     return render(request, template_name='booking.html', context=context)
 
@@ -90,10 +92,17 @@ def createBook(request, roomId):
         endTime = request.POST.get('endTime'),
         bookDate = datetime.datetime.now(),
         
-        # booker date
-        bookBy_id = request.user.id
+        # user that curently signed in data (maybe not the booker himself)
+        bookBy_id = request.user.id,
+
+        # booker data
+        bookerFirstName = request.POST.get('name'),
+        bookerLastName = request.POST.get('lastname'),
+        bookerStudentId = request.POST.get('sid'),
+        bookerYear = request.POST.get('year'),
+        bookerBranch = request.POST.get('branch'),
     )
-    return redirect('index')
+    return redirect('/profile/')
 
 def profile(request):
     context = {}
