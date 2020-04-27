@@ -39,6 +39,18 @@ class Booking(models.Model):
     bookDate = models.DateTimeField()
     purpose = models.TextField()
     bookBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    approve = models.ForeignKey('mainapp.Approve', on_delete=models.CASCADE, null=True, blank=True)
+
+class Approve(models.Model):
+    date = models.DateTimeField()
+
+    result_Status = (
+        ('APPROVED', 'approve'),
+        ('DISAPPROVED', 'approve')
+    )
+    result = models.CharField(max_length=11, choices=result_Status)
+
+    approveBy = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
 class Student(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
