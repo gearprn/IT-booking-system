@@ -110,4 +110,7 @@ def profile(request):
     socialAccount = SocialAccount.objects.get(user_id=request.user.id)
     context['socialAccount'] =socialAccount
 
+    booking = Booking.objects.filter(bookBy_id=request.user.id)
+    context['booking'] =booking
+
     return render(request, template_name='profile.html', context=context)
