@@ -46,7 +46,7 @@ class Booking(models.Model):
     bookerLastName = models.CharField(max_length=255, null=True, blank=True)
     bookerStudentId = models.CharField(max_length=255, null=True, blank=True)
     bookerYear = models.IntegerField(null=True, blank=True)
-    bookerBranch = models.CharField(max_length=255, null=True, blank=True )
+    bookerBranch = models.CharField(max_length=255, null=True, blank=True)
 
 class Approve(models.Model):
     date = models.DateTimeField()
