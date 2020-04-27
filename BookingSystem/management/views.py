@@ -14,7 +14,8 @@ def request(request):
 
 def detail(request, detail_id):
     context = {}
-    detail = User.objects.get(id= detail_id)
+
+    detail = Booking.objects.get(id= detail_id)
     context['detail'] = detail
 
     return render(request, template_name='detail.html', context=context)
