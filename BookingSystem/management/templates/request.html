@@ -2,6 +2,20 @@
 {% block content %}
     <div class="mt-4">
         <h4>คำร้องขอใช้สถานที่ทั้งหมด</h4>
-        <hr>
+        <div class="col-8">
+            {% for request in allreq %}
+            <hr>
+            <p>ชื่อโครงการ : {{request.title}}</p>
+            <p>สถานที่/ห้อง : {{request.room.name}}</p>
+            <p>ผู้ขอใช้สถานที่ : {{request.bookerFirstName}} {{request.bookerLastName}} (สาขา : {{request.bookerBranch}})</p>
+            
+            <a href="{% url 'detail' detail_id=user.id %}">
+                <div class="btn btn-warning">รายละเอียด</div>
+            </a>
+
+            {% endfor %}
+
+
+        </div>
     </div>
 {% endblock content %}
