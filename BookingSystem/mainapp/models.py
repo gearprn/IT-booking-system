@@ -40,6 +40,7 @@ class Booking(models.Model):
     purpose = models.TextField()
     bookBy = models.ForeignKey(User, on_delete=models.CASCADE)
     approve = models.ForeignKey('mainapp.Approve', on_delete=models.CASCADE, null=True, blank=True)
+    room = models.ForeignKey('mainapp.Room', on_delete=models.CASCADE, null=True, blank=True)
 
     bookerFirstName = models.CharField(max_length=255, null=True, blank=True)
     bookerLastName = models.CharField(max_length=255, null=True, blank=True)
