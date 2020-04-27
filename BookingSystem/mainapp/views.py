@@ -96,38 +96,43 @@ def createBook(request, roomId):
     endDate = datetime.datetime.strptime(request.POST.get('endDate'), '%Y-%m-%d').date()
 
     # request timeobject
-    # startTime = datetime.datetime
-    # endTime = datetime.datetime
-    print(request.POST.get('startTime'))
+    startTime = datetime.datetime.strptime(request.POST.get('startTime'), '%H:%M').time()
+    endTime = datetime.datetime.strptime(request.POST.get('endTime'), '%H:%M').time()
 
     # if request date is past date or end date less than start date
-    if (startDate < today) or (endDate < today) or (today < startDate):
+    if (startDate < today) or (endDate < today) or (endDate < startDate):
         error(request, 'กรุณาใส่วันให้ถูกต้อง')
         return redirect('/book/'+str(roomId))
 
-    # booking = Booking.objects.create(
-    #     # request data
-    #     title = request.POST.get('title'),
-    #     purpose = request.POST.get('purpose'),
-        
-    #     # time data
-    #     startDate = request.POST.get('startDate'),
-    #     endDate = request.POST.get('endDate'),
-    #     startTime = request.POST.get('startTime'),
-    #     endTime = request.POST.get('endTime'),
-    #     bookDate = datetime.datetime.now(),
-        
-    #     # user that curently signed in data (maybe not the booker himself)
-    #     bookBy_id = request.user.id,
+    # start time can't be less than end time
+    if (endTime < startTime):
+        error(request, 'กรุณาใส่เวลาให้ถูกต้อง')
+        return redirect('/book/'+str(roomId))
 
-    #     # booker data
-    #     bookerFirstName = request.POST.get('name'),
-    #     bookerLastName = request.POST.get('lastname'),
-    #     bookerStudentId = request.POST.get('sid'),
-    #     bookerYear = request.POST.get('year'),
-    #     bookerBranch = request.POST.get('branch'),
-    # )
-    return redirect('index')
+    booking = Booking.objects.create(
+        # request data
+        title = request.POST.get('title'),
+        purpose = request.POST.get('purpose'),
+        room_id = roomId,
+        
+        # time data
+        startDate = request.POST.get('startDate'),
+        endDate = request.POST.get('endDate'),
+        startTime = request.POST.get('startTime'),
+        endTime = request.POST.get('endTime'),
+        bookDate = datetime.datetime.now(),
+        
+        # user that curently signed in data (maybe not the booker himself)
+        bookBy_id = request.user.id,
+
+        # booker data
+        bookerFirstName = request.POST.get('name'),
+        bookerLastName = request.POST.get('lastname'),
+        bookerStudentId = request.POST.get('sid'),
+        bookerYear = request.POST.get('year'),
+        bookerBranch = request.POST.get('branch'),
+    )
+    return redirect('profile')
 
 def profile(request):
     context = {}
