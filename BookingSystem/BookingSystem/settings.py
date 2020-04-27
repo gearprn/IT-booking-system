@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mainapp',
     'profile',
+    'management',
 
     # google auth
     'django.contrib.sites',
