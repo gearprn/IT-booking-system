@@ -27,92 +27,101 @@
         </div>
         <hr>
 
-        <div class="row mb-5">
-            <div class="col-12">
-                <form action="{% url 'createBook' roomId=room.id %}" method="post">
-                {% csrf_token %}
-                    <div class="row mt-3">
-                        <div class="col-sm-12 col-md-6">
-                            <label for="email">ชื่อโครงการ</label>
-                            <input type="text" name="title" value="ทำไมต้องถาม" class="form-control" required autocomplete="off">
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <label for="username">จุดประสงค์การใช้สถานที่</label>
-                            <input type="text" name="purpose" value="ก็อยากจะใช้อะ" class="form-control" required autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-sm-12 col-md-6">
-                            <label for="username">ชื่อผู้ขอ</label>
-                            <input type="text" name="name" value="{{ request.user.first_name }}" class="form-control" required autocomplete="off">
-                        </div>
-
-                        <div class="col-sm-12 col-md-6">
-                            <label for="username">นามสกุล</label>
-                            <input type="text" name="lastname" value="{{ request.user.last_name }}" class="form-control" required autocomplete="off">
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-sm-12 col-md-4">
-                            <label for="username">เลขประจำตัวนักศึกษา</label>
-                            <input type="text" name="sid" value="{{ student.studentId }}" class="form-control" required autocomplete="off">
-                        </div>
-
-                        <div class="col-sm-12 col-md-4">
-                            <label for="username">ชั้นปี</label>
-                            <input type="text" name="year" value="{{ student.year }}" class="form-control" required autocomplete="off">
-                        </div>
-
-                        <div class="col-sm-12 col-md-4">
-                            <div class="form-group">
-                                <label for="branchName">หลักสูตร</label>
-                                <select class="form-control" id="branchName" name="branch" required>
-                                    <option value="IT">IT</option>
-                                    <option value="DSBA">DSBA</option>
-                                    <option value="BIT">BIT</option>
-                                </select>
+        {% if request.user.is_authenticated %}
+            <div class="row mb-5">
+                <div class="col-12">
+                    <form action="{% url 'createBook' roomId=room.id %}" method="post">
+                    {% csrf_token %}
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="email">ชื่อโครงการ</label>
+                                <input type="text" name="title" value="ทำไมต้องถาม" class="form-control" required autocomplete="off">
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="username">จุดประสงค์การใช้สถานที่</label>
+                                <input type="text" name="purpose" value="ก็อยากจะใช้อะ" class="form-control" required autocomplete="off">
                             </div>
                         </div>
-                    </div>
 
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <smal class="text-secondary">หมายเหตุ: ข้อมูลผู้ร้องขอใช้สถานที่สามารถกรอกเเทนกันได้</small>
-                        </div>
-                    </div>
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="username">ชื่อผู้ขอ</label>
+                                <input type="text" name="name" value="{{ request.user.first_name }}" class="form-control" required autocomplete="off">
+                            </div>
 
-                    <div class="row mt-3">
-                        <div class="col-sm-12 col-md-3">
-                            <label for="username">ตั้งเเต่วันที่</label>
-                            <input type="date" name="startDate" class="form-control" required autocomplete="off">
-                        </div>
-                        <div class="col-sm-12 col-md-3">
-                            <label for="username">จนถึงวันที่</label>
-                            <input type="date" name="endDate" class="form-control" required autocomplete="off">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="username">นามสกุล</label>
+                                <input type="text" name="lastname" value="{{ request.user.last_name }}" class="form-control" required autocomplete="off">
+                            </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-3">
-                            <label for="username">ทุกวันเวลา</label>
-                            <input type="time" name="startTime" class="form-control" required autocomplete="off">
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-4">
+                                <label for="username">เลขประจำตัวนักศึกษา</label>
+                                <input type="text" name="sid" value="{{ student.studentId }}" class="form-control" required autocomplete="off">
+                            </div>
+
+                            <div class="col-sm-12 col-md-4">
+                                <label for="username">ชั้นปี</label>
+                                <input type="text" name="year" value="{{ student.year }}" class="form-control" required autocomplete="off">
+                            </div>
+
+                            <div class="col-sm-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="branchName">หลักสูตร</label>
+                                    <select class="form-control" id="branchName" name="branch" required>
+                                        <option value="IT">IT</option>
+                                        <option value="DSBA">DSBA</option>
+                                        <option value="BIT">BIT</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-12 col-md-3">
-                            <label for="username">จนถึงเวลา</label>
-                            <input type="time" name="endTime" class="form-control" required autocomplete="off">
+                        <div class="row">
+                            <div class="col-12">
+                                <smal class="text-secondary">หมายเหตุ: ข้อมูลผู้ร้องขอใช้สถานที่สามารถกรอกเเทนกันได้</small>
+                            </div>
                         </div>
-                    </div>
 
-                    {% if user.is_authenticated %}
+                        <div class="row mt-3">
+                            <div class="col-sm-12 col-md-3">
+                                <label for="username">ตั้งเเต่วันที่</label>
+                                <input type="date" name="startDate" class="form-control" required autocomplete="off">
+                            </div>
+                            <div class="col-sm-12 col-md-3">
+                                <label for="username">จนถึงวันที่</label>
+                                <input type="date" name="endDate" class="form-control" required autocomplete="off">
+                            </div>
+
+                            <div class="col-sm-12 col-md-3">
+                                <label for="username">ทุกวันเวลา</label>
+                                <input type="time" name="startTime" class="form-control" required autocomplete="off">
+                            </div>
+
+                            <div class="col-sm-12 col-md-3">
+                                <label for="username">จนถึงเวลา</label>
+                                <input type="time" name="endTime" class="form-control" required autocomplete="off">
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <p class="text-danger mb-0">{{ message.tags }} {{ message }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    
                         <button type="submit" class="btn btn-outline-secondary mt-3">สร้างคำร้องขอ</button>
-                    {% else %}
-                        <a class="btn btn-outline-secondary mt-3" href="{% provider_login_url 'google' %}">เข้าสู้ระบบ</a>
-                    {% endif %}
-
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <a class="btn btn-outline-secondary" href="{% provider_login_url 'google' %}">เข้าสู้ระบบ</a>
+        {% endif %}
     </div>
     <style scoped>
         .event-img {
