@@ -26,5 +26,6 @@ urlpatterns = [
     path('', include('mainapp.urls')),
     path('sign_out/', views.sign_out, name='sign_out'),
     path('accounts/', include('allauth.urls')),
+    path('management/', include('management.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
