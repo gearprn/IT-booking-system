@@ -122,4 +122,7 @@ def profile(request):
     booking = Booking.objects.filter(bookBy_id=request.user.id)
     context['booking'] =booking
 
+    track = Booking.objects.filter(bookBy_id=request.user.id)
+    context['track'] =track
+
     return render(request, template_name='profile.html', context=context)
