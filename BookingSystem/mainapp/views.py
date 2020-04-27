@@ -16,19 +16,12 @@ def sign_out(request):
     return redirect('index')
 
 def index(request):
-
+    context = {}
     # get all room
-    rooms = Room.objects.all() 
+    rooms = Room.objects.all()
+    context['rooms'] = rooms
 
-    # search
-    search = request.GET.get('search', '')
-    if search != '':
-        rooms = Room.objects.filter(name__icontains=search)
-    
-    context = {
-        'rooms': rooms,
-        'search' : search,
-    }
+    return render(request, template_name='index.html', context=context)
 
     if request.user.is_authenticated:
         print('Authenticated.')
@@ -61,6 +54,17 @@ def index(request):
     else:
         print('unauthenticated')
         return render(request, template_name='index.html', context=context)
+
+def search(request):
+    context = {}
+    search = request.GET.get('search', '')
+
+    if search != '':
+        rooms = Room.objects.filter(name__icontains=search)
+        context['search'] = search
+        context['rooms'] = rooms
+        
+    return render(request, template_name='search.html', context=context)
 
 def book(request, roomId):
     context = {}
