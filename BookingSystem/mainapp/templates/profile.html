@@ -21,6 +21,21 @@
     
     <div class="mt-4">
         <h4>ประวัติการจอง</h4>
-        <hr>
+        <div class="col-8">
+            {% for book in booking %}
+            <hr>
+                <p>ชื่อโครงการ : {{book.title}}</p>
+                <p>ผู้ขอใช้สถานที่ : {{book.bookerFirstName}} {{book.bookerLastName}} (สาขา : {{book.bookerBranch}})</p>
+                <p>วันที่จอง : {{book.bookDate}}</p>
+                <p>เวลาที่เริ่ม : {{book.startTime}} เวลาที่สิ้นสุด : {{book.endTime}}</p>
+                {% if book.result == 'APPROVED' %}
+                    <p>สถานะการอนุมัติ : อนุมัติ</p>
+                {% elif book.result == 'DISAPPROVED' %}
+                    <p>สถานะการอนุมัติ : ไม่ผ่านการอนุมัติ</p>
+                {% else %}
+                    <p>สถานะการอนุมัติ : รอการอนุมัติ</p>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
