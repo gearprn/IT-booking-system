@@ -93,7 +93,7 @@ def createBook(request, roomId):
         # booker date
         bookBy_id = request.user.id
     )
-    return redirect('index')
+    return redirect('/profile/')
 
 def profile(request):
     context = {}
