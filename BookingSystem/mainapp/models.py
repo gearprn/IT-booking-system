@@ -49,11 +49,11 @@ class Booking(models.Model):
     bookerBranch = models.CharField(max_length=255, null=True, blank=True)
 
 class Approve(models.Model):
-    date = models.DateTimeField()
-
+    date = models.DateTimeField(null=True, blank=True)
     result_Status = (
         ('APPROVED', 'approve'),
-        ('DISAPPROVED', 'approve')
+        ('DISAPPROVED', 'approve'),
+        ('PENDING', 'pending')
     )
     result = models.CharField(max_length=11, choices=result_Status)
 

@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from allauth.socialaccount.models import SocialAccount
 
 import datetime
-from mainapp.models import Room, Booking, Student, RoomType_Facility
+from mainapp.models import Room, Booking, Student, RoomType_Facility, Approve
 
 # Create your views here.
 
@@ -109,11 +109,17 @@ def createBook(request, roomId):
         error(request, 'กรุณาใส่เวลาให้ถูกต้อง')
         return redirect('/book/'+str(roomId))
 
+    # if make to this past mean no error
+    approve = Approve.objects.create(
+        result = 'PENDING'
+    )
+
     booking = Booking.objects.create(
         # request data
         title = request.POST.get('title'),
         purpose = request.POST.get('purpose'),
         room_id = roomId,
+        approve = approve, # this approve is still don't have date, approve_by
         
         # time data
         startDate = request.POST.get('startDate'),
