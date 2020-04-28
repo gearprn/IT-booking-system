@@ -8,35 +8,56 @@
 
     <div class="row">
         <div class="col-4">
-            <img class='w-75' src="{{ socialAccount.extra_data.picture }}">
+            <img class='w-100' src="{{ socialAccount.extra_data.picture }}">
         </div>
 
         <div class="col-8">
-            <p class="">ชื่อ-สกุล : {{user.first_name}} {{user.last_name}}</p>
-            <p>รหัสนักศึกษา : {{studentId.studentId}}</p>
-            <p>ชั้นปี : {{studentId.year}}</p>
-            <p>Email : {{user.email}}</p>
+            <div class="bg-gray h-100 p-4">
+                <p class="">ชื่อ-สกุล : {{user.first_name}} {{user.last_name}}</p>
+                <p>รหัสนักศึกษา : {{studentId.studentId}}</p>
+                <p>ชั้นปี : {{studentId.year}}</p>
+                <p>Email : {{user.email}}</p>
+            </div>
         </div>
     </div>
     
-    <div class="mt-4">
+    <div class="mt-4 mb-3">
         <h4>ประวัติการจอง</h4>
-        <div class="col-8">
+        <hr>
+        <div class="row">
             {% for book in booking %}
-            <hr>
-                <p>ชื่อโครงการ : {{book.title}}</p>
-                <p>สถานที่/ห้อง : {{book.room.name}}</p>
-                <p>ผู้ขอใช้สถานที่ : {{book.bookerFirstName}} {{book.bookerLastName}} (สาขา : {{book.bookerBranch}})</p>
-                <p>วันที่จอง : {{book.bookDate}}</p>
-                <p>เวลาที่เริ่ม : {{book.startTime}} เวลาที่สิ้นสุด : {{book.endTime}}</p>
-                {% if book.result == 'APPROVED' %}
-                    <p>สถานะการอนุมัติ : อนุมัติ</p>
-                {% elif book.result == 'DISAPPROVED' %}
-                    <p>สถานะการอนุมัติ : ไม่ผ่านการอนุมัติ</p>
-                {% else %}
-                    <p>สถานะการอนุมัติ : รอการอนุมัติ</p>
-                {% endif %}
+                <div class="col-6 mb-3">
+                    <div class="myCard p-4">
+                        <p>ชื่อโครงการ : {{book.title}}</p>
+                        <p>สถานที่/ห้อง : {{book.room.name}}</p>
+                        <p>ผู้ขอใช้สถานที่ : {{book.bookerFirstName}} {{book.bookerLastName}} (สาขา : {{book.bookerBranch}})</p>
+                        <p>วันที่จอง : {{book.bookDate}}</p>
+                        <p>เวลาที่เริ่ม : {{book.startTime}} เวลาที่สิ้นสุด : {{book.endTime}}</p>
+                        {% if book.result == 'APPROVED' %}
+                            <p>สถานะการอนุมัติ : อนุมัติ</p>
+                        {% elif book.result == 'DISAPPROVED' %}
+                            <p>สถานะการอนุมัติ : ไม่ผ่านการอนุมัติ</p>
+                        {% else %}
+                            <p>สถานะการอนุมัติ : รอการอนุมัติ</p>
+                        {% endif %}
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>
+    <style scoped>
+        .event-img {
+            width: 100%;
+            height: 399px;
+            object-fit: cover;
+        }
+
+        .bg-gray {
+            background: #C4C4C4;
+        }
+
+        .myCard {
+            border-left: 3px solid green;
+        }
+    </style>
 {% endblock %}
