@@ -6,6 +6,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 urlpatterns = [
+    path('', views.adminSignIn, name="adminSignIn"),
     path('request', views.request, name='request'),
     path('<int:detail_id>', views.detail, name='detail'),
     path('createroom', views.createroom, name='createroom'),

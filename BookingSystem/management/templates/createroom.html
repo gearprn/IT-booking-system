@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-
-    <h4>การเพิ่มสถานที่</h4>
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+            <h4 class="">การเพิ่มสถานที่</h4>
+        </div>
+    </div>
     <hr>
     <div>
         <form method="POST" action="{% url 'createroom' %}" enctype="multipart/form-data"> {% comment %}  {% endcomment %}
@@ -26,8 +29,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="roomType_id">ชนิดของห้อง/สถานที่ :</label>
-                        <select name="roomType_id" class="form-control" required>
-                        
+                        <select name="roomType_id" class="form-control ml-3" required>
                             {% for type in allType %}
                                 <option value="{{type.id}}">{{type.typeTitle}}</option>
                             {% endfor %}
@@ -45,12 +47,11 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="photo" >รูปภาพ :</label><br>
-                        <input type="file" name="photo" accept="image/*" required>
+                        <input type="file" class="form-control ml-3" style="border: 0;" name="photo" accept="image/*" required>
                     </div>
                 </div>
-
             </div>
-            <button type="submit" class="btn btn-primary ml-3">Create Room</button>
+            <button type="submit" class="btn btn-secondary mt-2">ยืนยัน</button>
         </form>
     </div>
     

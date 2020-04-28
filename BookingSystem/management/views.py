@@ -1,14 +1,29 @@
-import datetime
-
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.template.context_processors import request
 
+import datetime
 from mainapp.models import (Booking, Facility, Room, RoomType, RoomType_Facility, Student, Approve)
 
 # Create your views here.
 
+def adminSignIn(request):
+    if request.method == 'POST':
+        user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+        if user is not None and user.is_staff:
+            login(request, user)
+            return redirect('/management/request')
+        else:
+            return redirect('index')
+
+    return render(request, template_name='signin.html')
+
+
 # คำร้องขอทั้งหมด
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def request(request):
     context = {}
 
@@ -16,7 +31,9 @@ def request(request):
     context['allreq'] = allreq
     return render(request, template_name='request.html', context=context)
 
-# รายละเอียดทั้งมหด
+# รายละเอียดทั้งหมด
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def detail(request, detail_id):
     context = {}
 
@@ -25,6 +42,8 @@ def detail(request, detail_id):
     return render(request, template_name='detail.html', context=context)
 
 # เพิ่มสถานที่
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def createroom(request):
     user = request.user.id
     context = {}
@@ -45,6 +64,8 @@ def createroom(request):
     return render(request, template_name='createroom.html', context=context)
 
 # เพิ่มสิ่งอำนวยความสะดวก
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def addfacility(request):
     user = request.user.id
     if request.method == 'POST':
@@ -57,6 +78,8 @@ def addfacility(request):
     return render(request, template_name='createfacility.html')
 
 # เพิ่มประเภทห้อง
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def addRoomtype(request):
     user = request.user.id
     if request.method == 'POST':
@@ -68,6 +91,8 @@ def addRoomtype(request):
     return render(request, template_name='createtype.html')
 
 # ลบสถานที่/ห้อง
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def deleteRoom(request, room_id):
     delRoom = Room.objects.get(pk= room_id)
     delRoom.delete()
@@ -75,6 +100,8 @@ def deleteRoom(request, room_id):
     return redirect('allRoom')
 
 # ลบประเภทของห้อง
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def deleteRoomType(request, roomType_id):
     delRoomType = RoomType.objects.get(pk= roomType_id)
     delRoomType.delete()
@@ -82,6 +109,8 @@ def deleteRoomType(request, roomType_id):
     return redirect('allRoomType')
 
 # ลบสิ่งอำนวยความสะดวก
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def deleteFacility(request, facility_id):
     delFacility = Facility.objects.get(pk= facility_id)
     delFacility.delete()
@@ -89,6 +118,8 @@ def deleteFacility(request, facility_id):
     return redirect('allfacility')
 
 # get allroom
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def allRoom(request):
     context = {}
     
@@ -97,6 +128,8 @@ def allRoom(request):
     return render(request, template_name='allroom.html', context= context)
 
 # get allroomtype
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def allRoomType(request):
     context = {}
     
@@ -105,6 +138,8 @@ def allRoomType(request):
     return render(request, template_name='alltype.html', context= context)
 
 # get allfacility
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def allfacility(request):
     context = {}
     
@@ -113,6 +148,8 @@ def allfacility(request):
     return render(request, template_name='allfacility.html', context= context)
 
 # การอนุมัติ/ไม่อนุมัติให้ใช้สถานที่
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
 def btnApprove(request, bookBy_id):
     context = {}
     bookingStatus = Booking.objects.get(id=bookBy_id)

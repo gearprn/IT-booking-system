@@ -142,7 +142,7 @@ def createBook(request, roomId):
 
 def profile(request):
     context = {}
-
+    # เป็นการดึงข้อมูลจากโมเดลในฐานข้อมูล
     # ผู้ใช้งาน
     user = User.objects.get(id= request.user.id)
     context['user'] = user
