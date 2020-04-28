@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <h4>ประเภทสถานที่</h4>
+    <a class="btn btn-outline-secondary" href="{% url 'addtype'%}">เพิ่มประเภท</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ชื่อประเภท</th>
+            </tr>
+        </thead>
+
+        <tbody>
+         {% for roomType in types %}
+                <tr>
+                    <td>{{roomType.typeTitle}}</td>
+                    <td>
+                        
+                        <a class="btn btn-outline-secondary" href="{% url 'deleteRoomType' roomType_id=roomType.id %}">ลบ</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

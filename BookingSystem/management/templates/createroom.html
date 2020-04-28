@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h4>การเพิ่มสถานที่</h4>
+    <hr>
+    <div>
+        <form method="POST" action="{% url 'createroom' %}" enctype="multipart/form-data"> {% comment %}  {% endcomment %}
+            {% csrf_token %}
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="name">ชื่อห้อง/สถานที่ :</label>
+                        <input type="text" class="form-control ml-3" name="name" autocomplete="off" required>
+                    </div>
+                </div>
+
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="location">ที่อยู่สถานที่ :</label>
+                        <input type="text" class="form-control ml-3" name="location" autocomplete="off" required>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="roomType_id">ชนิดของห้อง/สถานที่ :</label>
+                        <select name="roomType_id" class="form-control" required>
+                        
+                            {% for type in allType %}
+                                <option value="{{type.id}}">{{type.typeTitle}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="size">ขนาดห้อง/สถานที่ :</label>
+                        <input type="number" class="form-control ml-3" name="size" min="0">
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="photo" >รูปภาพ :</label><br>
+                        <input type="file" name="photo" accept="image/*" required>
+                    </div>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary ml-3">Create Room</button>
+        </form>
+    </div>
+    
+{% endblock content %}

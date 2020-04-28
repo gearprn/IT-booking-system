@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+        <br>
+        <h4>สถานที่</h4>
+        <a class="btn btn-outline-secondary" href="{% url 'createroom'%}">เพิ่มสถานที่</a>
+        <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ชื่อ</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">สถานที่</th>
+                <th scope="col">สถานะ</th>
+            </tr>
+        </thead>
+
+        <tbody>
+         {% for room in rooms %}
+                <tr>
+                    <td>{{room.name}}</td>
+                    <td>{{room.roomType.typeTitle}}</td>
+                    <td>{{room.location}}</td>
+                        {% if room.availableStatus == 'AVAILABLE' %}
+                            <td>ใช้งานได้</td>
+                        {% else %}
+                            <td>อยู่ระหว่างการปรับปรุง</td>
+                        {% endif %}
+                    <td>
+                        <a class="btn btn-outline-secondary" href="{% url 'deleteRoom' room_id=room.id %}">ลบ</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
