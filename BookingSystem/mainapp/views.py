@@ -58,10 +58,10 @@ def index(request):
 
 def search(request):
     context = {}
-    search = request.GET.get('search', '')
+    search = request.GET.get('search', '') # ดึงข้อมูลจากช่องค้นหา
 
-    if search != '':
-        rooms = Room.objects.filter(name__icontains=search)
+    if search != '': 
+        rooms = Room.objects.filter(name__icontains=search) # filter search name
         context['search'] = search
         context['rooms'] = rooms
         
