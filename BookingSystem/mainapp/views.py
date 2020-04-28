@@ -143,21 +143,23 @@ def createBook(request, roomId):
 def profile(request):
     context = {}
 
-    # get user
+    # ผู้ใช้งาน
     user = User.objects.get(id= request.user.id)
     context['user'] = user
 
-    # get student data
+    # รหัสนักศึกษา
     studentId = Student.objects.get(user_id=request.user.id)
     context['studentId'] = studentId
 
-    # get image profile
+    # รูปแอคเคาท์
     socialAccount = SocialAccount.objects.get(user_id=request.user.id)
     context['socialAccount'] =socialAccount
 
+    # ดึงประวัติการจอง ex วันที่ทำการจอง
     booking = Booking.objects.filter(bookBy_id=request.user.id)
     context['booking'] =booking
 
+    # แขนงการเรียน
     track = Booking.objects.filter(bookBy_id=request.user.id)
     context['track'] =track
 
