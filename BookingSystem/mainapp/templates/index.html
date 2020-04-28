@@ -1,8 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-    <h4 class="mt-3">สถานที่</h4>
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+            <h4 class="">สถานที่</h4>
+        </div>
+        <div class="col-6 d-flex flex-row-reverse">
+            <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'search' %}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"  required>
+                <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    
     <table class="table">
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">ชื่อ</th>
                 <th scope="col">ประเภท</th>
@@ -20,13 +31,13 @@
                 <td>{{room.location}}</td>
                 {% if room.availableStatus == 'AVAILABLE' %}
                     <td>ใช้งานได้</td>
-                    <td>
+                    <td class="d-flex justify-content-end pr-0">
                         <a class="btn btn-outline-secondary" href="{% url 'book' roomId=room.id %}">จอง</a>
                     </td>
                 {% else %}
                     <td>อยู่ระหว่างการปรับปรุง</td>
-                    <td>
-                    <a class="btn btn-outline-secondary disabled" href="">จอง</a>
+                    <td class="d-flex justify-content-end pr-0">
+                        <a class="btn btn-outline-secondary disabled" href="">จอง</a>
                     </td>
                 {% endif %}
             </tr>

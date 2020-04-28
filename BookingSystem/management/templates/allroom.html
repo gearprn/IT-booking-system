@@ -1,16 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-        <br>
-        <h4>สถานที่</h4>
-        <a class="btn btn-outline-secondary" href="{% url 'createroom'%}">เพิ่มสถานที่</a>
-        <br>
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+            <h4 class="">สถานที่</h4>
+        </div>
+        <div class="col-6 d-flex flex-row-reverse">
+            <a class="btn btn-outline-secondary" href="{% url 'createroom'%}">เพิ่มสถานที่</a>
+        </div>
+    </div>
     <table class="table">
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">ชื่อ</th>
                 <th scope="col">ประเภท</th>
                 <th scope="col">สถานที่</th>
                 <th scope="col">สถานะ</th>
+                <th></th>
             </tr>
         </thead>
 
@@ -25,7 +30,8 @@
                         {% else %}
                             <td>อยู่ระหว่างการปรับปรุง</td>
                         {% endif %}
-                    <td>
+                    <td class="d-flex justify-content-end pr-0">
+                        <a class="btn btn-outline-secondary mr-2" href="{% url 'deleteRoom' room_id=room.id %}">แก้ไข</a>
                         <a class="btn btn-outline-secondary" href="{% url 'deleteRoom' room_id=room.id %}">ลบ</a>
                     </td>
                 </tr>

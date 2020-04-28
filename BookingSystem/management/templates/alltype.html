@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-    <br>
-    <h4>ประเภทสถานที่</h4>
-    <a class="btn btn-outline-secondary" href="{% url 'addtype'%}">เพิ่มประเภท</a>
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+            <h4 class="">ประเภทสถานที่</h4>
+        </div>
+        <div class="col-6 d-flex flex-row-reverse">
+            <a class="btn btn-outline-secondary" href="{% url 'addtype'%}">เพิ่มประเภท</a>
+        </div>
+    </div>
     <table class="table">
-        <thead>
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">ชื่อประเภท</th>
+                <th scope="col"></th>
             </tr>
         </thead>
 
@@ -14,11 +20,10 @@
          {% for roomType in types %}
                 <tr>
                     <td>{{roomType.typeTitle}}</td>
-                    <td>
-                        
+                    <td class="d-flex justify-content-end pr-0">
+                        <a class="btn btn-outline-secondary mr-2" href="{% url 'deleteRoomType' roomType_id=roomType.id %}">แก้ไข</a>
                         <a class="btn btn-outline-secondary" href="{% url 'deleteRoomType' roomType_id=roomType.id %}">ลบ</a>
                     </td>
-
                 </tr>
             {% endfor %}
         </tbody>
