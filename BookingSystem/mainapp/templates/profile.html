@@ -28,18 +28,21 @@
             {% for book in booking %}
                 <div class="col-6 mb-3">
                     <div class="myCard p-4">
+
                         <p>ชื่อโครงการ : {{book.title}}</p>
                         <p>สถานที่/ห้อง : {{book.room.name}}</p>
                         <p>ผู้ขอใช้สถานที่ : {{book.bookerFirstName}} {{book.bookerLastName}} (สาขา : {{book.bookerBranch}})</p>
                         <p>วันที่จอง : {{book.bookDate}}</p>
                         <p>เวลาที่เริ่ม : {{book.startTime}} เวลาที่สิ้นสุด : {{book.endTime}}</p>
-                        {% if book.result == 'APPROVED' %}
+
+                        {% if book.approve.result == 'APPROVED' %}
                             <p>สถานะการอนุมัติ : อนุมัติ</p>
-                        {% elif book.result == 'DISAPPROVED' %}
+                        {% elif book.approve.result == 'DISAPPROVED' %}
                             <p>สถานะการอนุมัติ : ไม่ผ่านการอนุมัติ</p>
                         {% else %}
                             <p>สถานะการอนุมัติ : รอการอนุมัติ</p>
                         {% endif %}
+
                     </div>
                 </div>
             {% endfor %}

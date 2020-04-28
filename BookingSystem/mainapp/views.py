@@ -58,10 +58,10 @@ def index(request):
 
 def search(request):
     context = {}
-    search = request.GET.get('search', '')
+    search = request.GET.get('search', '') # ดึงข้อมูลจากช่องค้นหา
 
-    if search != '':
-        rooms = Room.objects.filter(name__icontains=search)
+    if search != '': 
+        rooms = Room.objects.filter(name__icontains=search) # filter search name
         context['search'] = search
         context['rooms'] = rooms
         
@@ -143,21 +143,23 @@ def createBook(request, roomId):
 def profile(request):
     context = {}
 
-    # get user
+    # ผู้ใช้งาน
     user = User.objects.get(id= request.user.id)
     context['user'] = user
 
-    # get student data
+    # รหัสนักศึกษา
     studentId = Student.objects.get(user_id=request.user.id)
     context['studentId'] = studentId
 
-    # get image profile
+    # รูปแอคเคาท์
     socialAccount = SocialAccount.objects.get(user_id=request.user.id)
     context['socialAccount'] =socialAccount
 
+    # ดึงประวัติการจอง ex วันที่ทำการจอง
     booking = Booking.objects.filter(bookBy_id=request.user.id)
     context['booking'] =booking
 
+    # แขนงการเรียน
     track = Booking.objects.filter(bookBy_id=request.user.id)
     context['track'] =track
 

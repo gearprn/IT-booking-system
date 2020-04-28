@@ -4,9 +4,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.template.context_processors import request
 
-
 import datetime
-from mainapp.models import (Booking, Facility, Room, RoomType, RoomType_Facility, Student)
+from mainapp.models import (Booking, Facility, Room, RoomType, RoomType_Facility, Student, Approve)
 
 # Create your views here.
 
@@ -21,6 +20,8 @@ def adminSignIn(request):
 
     return render(request, template_name='signin.html')
 
+
+# คำร้องขอทั้งหมด
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def request(request):
@@ -28,9 +29,9 @@ def request(request):
 
     allreq = Booking.objects.all()
     context['allreq'] = allreq
-
     return render(request, template_name='request.html', context=context)
 
+# รายละเอียดทั้งหมด
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def detail(request, detail_id):
@@ -38,9 +39,9 @@ def detail(request, detail_id):
 
     detail = Booking.objects.get(id= detail_id)
     context['detail'] = detail
-
     return render(request, template_name='detail.html', context=context)
 
+# เพิ่มสถานที่
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def createroom(request):
@@ -62,6 +63,7 @@ def createroom(request):
 
     return render(request, template_name='createroom.html', context=context)
 
+# เพิ่มสิ่งอำนวยความสะดวก
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def addfacility(request):
@@ -75,6 +77,7 @@ def addfacility(request):
 
     return render(request, template_name='createfacility.html')
 
+# เพิ่มประเภทห้อง
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def addRoomtype(request):
@@ -87,6 +90,7 @@ def addRoomtype(request):
 
     return render(request, template_name='createtype.html')
 
+# ลบสถานที่/ห้อง
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def deleteRoom(request, room_id):
@@ -95,6 +99,7 @@ def deleteRoom(request, room_id):
 
     return redirect('allRoom')
 
+# ลบประเภทของห้อง
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def deleteRoomType(request, roomType_id):
@@ -103,6 +108,7 @@ def deleteRoomType(request, roomType_id):
 
     return redirect('allRoomType')
 
+# ลบสิ่งอำนวยความสะดวก
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def deleteFacility(request, facility_id):
@@ -111,29 +117,47 @@ def deleteFacility(request, facility_id):
 
     return redirect('allfacility')
 
+# get allroom
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def allRoom(request):
     context = {}
-    # get allroom
+    
     rooms = Room.objects.all()
     context['rooms'] = rooms
     return render(request, template_name='allroom.html', context= context)
 
+# get allroomtype
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def allRoomType(request):
     context = {}
-    # get allroomtype
+    
     types = RoomType.objects.all()
     context['types'] =  types
     return render(request, template_name='alltype.html', context= context)
 
+# get allfacility
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def allfacility(request):
     context = {}
-    # get allroomtype
+    
     facilities = Facility.objects.all()
     context['facilities'] =  facilities
     return render(request, template_name='allfacility.html', context= context)
+
+# การอนุมัติ/ไม่อนุมัติให้ใช้สถานที่
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
+def btnApprove(request, bookBy_id):
+    context = {}
+    bookingStatus = Booking.objects.get(id=bookBy_id)
+    approve = Approve.objects.get(id=bookingStatus.approve_id)
+
+    approve.result = 'APPROVED'
+    approve.save()
+
+    context['detail'] =bookingStatus
+    context['approve'] =approve
+    return render(request, template_name='detail.html', context= context)

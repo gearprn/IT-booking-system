@@ -17,7 +17,8 @@ urlpatterns = [
     path('deleteFacility/<int:facility_id>', views.deleteFacility, name='deleteFacility'),
     path('allRoom', views.allRoom, name='allRoom'),
     path('allType', views.allRoomType, name='allRoomType'),
-    path('allfacility', views.allfacility, name='allfacility')
+    path('allfacility', views.allfacility, name='allfacility'),
+    path('approve/<int:bookBy_id>', views.btnApprove, name='btnApprove'),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
