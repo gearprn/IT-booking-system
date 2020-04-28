@@ -1,32 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="mt-4">
         <h4>สถานที่</h4>
-        <hr>
-        <div class="row">
-            <div class="col">ชื่อ</div>
-            <div class="col">ประเภท</div>
-            <div class="col">สถานที่</div>
-            <div class="col">สถานะ</div>
-            <div class="col"></div>
-        </div>
-        <div class="row mt-2">
-            {% for room in rooms %}
-                <div class="col my-auto">{{room.name}}</div>
-                <div class="col my-auto">{{room.roomType.typeTitle}}</div>
-                <div class="col my-auto">{{room.location}}</div>
+        <br>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ชื่อ</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">สถานที่</th>
+                <th scope="col">สถานะ</th>
+            </tr>
+        </thead>
+
+        <tbody>
+         {% for room in rooms %}
+            <tr>
+                <td>{{room.name}}</td>
+                <td>{{room.roomType.typeTitle}}</td>
+                <td>{{room.location}}</td>
+
                 {% if room.availableStatus == 'AVAILABLE' %}
-                    <div class="col my-auto">ใช้งานได้</div>
-                    <div class="col">
+                    <td>ใช้งานได้</td>
+                    <td>
                         <a class="btn btn-outline-secondary" href="{% url 'book' roomId=room.id %}">จอง</a>
-                    </div>
+                    </td>
                 {% else %}
-                    <div class="col my-auto">อยู่ระหว่างการปรับปรุง</div>
-                    <div class="col">
-                        <a class="btn btn-outline-secondary disabled" href="">จอง</a>
-                    </div>
+                    <td>อยู่ระหว่างการปรับปรุง</td>
+                    <td>
+                    <a class="btn btn-outline-secondary disabled" href="">จอง</a>
+                    </td>
                 {% endif %}
+            
+            {% if user.is_staff %}
+                <td>
+                    <a class="btn btn-outline-secondary" href="{% url 'deleteRoom' room_id=room.id %}">ลบ</a>
+                </td>
+            {% endif %}
+            </tr>
             {% endfor %}
-        </div>
+        </tbody>
+    </table>
     </div>
 {% endblock %}

@@ -37,7 +37,16 @@
 
                     {% if user.is_staff %}
                         <li class="nav-item">
-                            <a class="nav-link" href="">Event Management</a>
+                            <a class="nav-link" href="{% url 'request' %}">คำร้องขอสถานที่ทั้งหมด</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'allRoom' %}">สถานที่</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'allRoomType' %}">ประเภทสถานที่</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'allfacility' %}">สิ่งอำนวยความสะดวก</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">Sign Out</a>
@@ -57,13 +66,14 @@
                             </li>
                         {% endif %}
                     
-                    {% endif %}
+                    
 
                 </ul>
                 <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'search' %}">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"  required>
                     <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
                 </form>
+                {% endif %}
             </div>
         </div>
     </nav>

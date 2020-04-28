@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+    <br>
+    <h4>สิ่งอำนวยความสะดวก</h4>
+    <a class="btn btn-outline-secondary" href="{% url 'addfacility'%}">เพิ่มสิ่งอำนวยความสะดวก</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ชื่อสิ่งอำนวยความสะดวก</th>
+                <th scope="col">คำอธิบาย</th>
+            </tr>
+        </thead>
+
+        <tbody>
+         {% for facility in facilities %}
+                <tr>
+                    <td>{{facility.name}}</td>
+                    <td>{{facility.description}}</td>
+                    <td>
+                        <a class="btn btn-outline-secondary" href="{% url 'deleteFacility' facility_id=facility.id %}">ลบ</a>
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
