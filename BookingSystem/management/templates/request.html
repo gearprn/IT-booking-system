@@ -3,13 +3,13 @@
     <div class="mt-4">
         <h4>คำร้องขอใช้สถานที่ทั้งหมด</h4>
         <div class="col-8">
-            {% for request in allreq %}
+            {% for book in allreq %}
             <hr>
-            <p>ชื่อโครงการ : {{request.title}}</p>
-            <p>สถานที่/ห้อง : {{request.room.name}}</p>
-            <p>ผู้ขอใช้สถานที่ : {{request.bookerFirstName}} {{request.bookerLastName}} (สาขา : {{request.bookerBranch}})</p>
+            <p>ชื่อโครงการ : {{book.title}}</p>
+            <p>สถานที่/ห้อง : {{book.room.name}}</p>
+            <p>ผู้ขอใช้สถานที่ : {{book.bookerFirstName}} {{book.bookerLastName}} (สาขา : {{book.bookerBranch}})</p>
             
-            <a href="{% url 'detail' detail_id=user.id %}">
+            <a href="{% url 'detail' detail_id=book.id %}">
                 <div class="btn btn-warning">รายละเอียด</div>
             </a>
 
