@@ -1,18 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="mt-4">
-        <h4>รายละเอียด</h4>
-        <div class="col-8">
-            <hr>
-            <p>ชื่อโครงการ : {{detail.title}}</p>
-            <p>สถานที่/ห้อง : {{detail.room.name}}</p>
-            <p>ผู้ขอใช้สถานที่ : {{detail.bookerFirstName}} {{detail.bookerLastName}} (สาขา : {{detail.bookerBranch}})</p>
-            <p>เวลาใช้งานเริ่มต้น - สิ้นสุด : {{detail.startTime}} - {{detail.endTime}}</p>
+        <h4>รายละเอียดคำร้องขอการใช้สถานที่</h4>
+        <div class="row">
+            <div class="col-12">
+                <hr>
+                <p>ชื่อโครงการ : {{detail.title}}</p>
+                <p>จุดประสงค์ : {{ detail.purpose }}</p>
+                <p>สถานที่/ห้อง : {{detail.room.name}}</p>
+                <p>ผู้ขอใช้สถานที่ : {{detail.bookerFirstName}} {{detail.bookerLastName}} (สาขา : {{detail.bookerBranch}})</p>
+                <p>ตั้งเเต่วัน - จนไปถึงวัน : {{ detail.startDate|date:"d-M-Y" }} - {{ detail.endDate }}</p>
+                <p>เวลาใช้งานเริ่มต้น - สิ้นสุด : {{detail.startTime}} - {{detail.endTime}}</p>
+            </div>
         </div>
-        <center>
-            <a class="btn btn-success" href="{% url 'btnApprove' bookBy_id=detail.id%}">อนุมัติ</a>
+        {% if detail.approve.result == "PENDING" %}
+            <div class="row">
+                <div class="col-12">
+                    <a class="btn btn-success" href="{% url 'btnApprove' bookBy_id=detail.id%}">อนุมัติ</a>
+                    <a class="btn btn-danger" href="{% url 'request' %}">ไม่อนุมัติ</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-12">
+                    {% if detail.approve.result == "APPROVED" %}
+                        <p>สถานะ : <span class="text-success">อนุมัติเเล้ว</span></p>
+                    {% else %}
+                        <p>สถานะ : <span class="text-success">ไม่ผ่านการอนุมัติ</span></p>
+                    {% endif %}
 
-            <a class="btn btn-danger" href="{% url 'request' %}">ไม่อนุมัติ</a>
-        </center>
+                    <p>อนุมัติโดย : {{ detail.approve.approveBy.username }} เมื่อ : {{ detail.approve.date }} </p>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock content %}

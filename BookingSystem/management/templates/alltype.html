@@ -18,14 +18,14 @@
 
         <tbody>
          {% for roomType in types %}
-                <tr>
-                    <td>{{roomType.typeTitle}}</td>
-                    <td class="d-flex justify-content-end pr-0">
-                        <a class="btn btn-outline-secondary mr-2" href="{% url 'deleteRoomType' roomType_id=roomType.id %}">แก้ไข</a>
-                        <a class="btn btn-outline-secondary" href="{% url 'deleteRoomType' roomType_id=roomType.id %}">ลบ</a>
-                    </td>
-                </tr>
-            {% endfor %}
+            <tr>
+                <td>{{roomType.typeTitle}}</td>
+                <td class="d-flex justify-content-end pr-0">
+                    <a class="btn btn-outline-secondary mr-2" href="{% url 'editRoomType' roomTypeId=roomType.id %}">แก้ไข</a>
+                    <a class="btn btn-outline-secondary" href="{% url 'deleteRoomType' roomType_id=roomType.id %}">ลบ</a>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 {% endblock %}

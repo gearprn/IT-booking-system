@@ -10,16 +10,17 @@ from mainapp.models import (Booking, Facility, Room, RoomType, RoomType_Facility
 # Create your views here.
 
 def adminSignIn(request):
+    context = {}
     if request.method == 'POST':
         user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
         if user is not None and user.is_staff:
             login(request, user)
             return redirect('/management/request')
         else:
-            return redirect('index')
+            context['error'] = 'username หรือ password ไม่ถูกต้อง'
+            return render(request, template_name='signin.html', context=context)
 
-    return render(request, template_name='signin.html')
-
+    return render(request, template_name='signin.html', context=context)
 
 # คำร้องขอทั้งหมด
 @login_required(login_url='/management/')
@@ -27,9 +28,20 @@ def adminSignIn(request):
 def request(request):
     context = {}
 
-    allreq = Booking.objects.all()
+    allreq = Booking.objects.filter(approve__result="PENDING")
     context['allreq'] = allreq
     return render(request, template_name='request.html', context=context)
+
+# ดูประวัติที่เคยอนุมัติ
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
+def myApprove(request):
+    context = {}
+
+    myApproval = Booking.objects.filter(approve__approveBy_id=request.user.id)
+    context['myApproval'] = myApproval
+
+    return render(request, template_name="myApproval.html", context=context)
 
 # รายละเอียดทั้งหมด
 @login_required(login_url='/management/')
@@ -151,13 +163,92 @@ def allfacility(request):
 @login_required(login_url='/management/')
 @permission_required('is_staff', login_url='/management/')
 def btnApprove(request, bookBy_id):
-    context = {}
     bookingStatus = Booking.objects.get(id=bookBy_id)
     approve = Approve.objects.get(id=bookingStatus.approve_id)
 
+    # เก็บว่าใครเป็นคนอนุมัติเเละเวลาไหน
+    approve.date = datetime.datetime.now()
+    approve.approveBy_id = request.user.id
     approve.result = 'APPROVED'
     approve.save()
 
-    context['detail'] =bookingStatus
-    context['approve'] =approve
-    return render(request, template_name='detail.html', context= context)
+    return redirect('/management/request')
+
+# เเก้ไขสถานที่
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
+def editRoom(request, roomId):
+    context = {}
+    room = Room.objects.get(id=roomId)
+    context['room'] = room
+
+    allType = RoomType.objects.all()
+    context['allType'] = allType
+
+    photo = request.FILES.get('photo', '')
+    
+    # roomName = Room.objects.filter(name=request.POST.get('name'))
+
+    if request.method == 'POST':
+        room.name = request.POST.get('name')
+        room.location = request.POST.get('location')
+        room.roomType_id = request.POST.get('roomType_id')
+        room.size = request.POST.get('size')
+        room.photo = room.photo if photo == '' else photo
+        room.save()
+        return redirect('/management/allRoom')
+
+    # elif request.method == 'POST' and roomName.exists() == True:
+    #     context['error'] = "ชื่อสถานที่ซ้ำโปรดใช้ชื่ออื่น"
+
+    return render(request, template_name="editroom.html", context=context)
+
+# เเก้ไขประเภทสถานที่
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
+def editRoomType(request, roomTypeId):
+    context = {}
+
+    roomType = RoomType.objects.get(id=roomTypeId)
+    context['roomType'] = roomType
+
+    hasFacilities = RoomType_Facility.objects.filter(roomType_id=roomTypeId)
+    context['hasFacilities'] = hasFacilities
+
+    facility =  Facility.objects.all()
+    context['facilities'] = facility
+
+    # roomTypeName = RoomType.objects.filter(typeTitle=request.POST.get('typeTitle'))
+
+    if request.method == "POST":
+        roomType.typeTitle = request.POST.get('typeTitle')
+        roomType.save()
+        return redirect('/management/allType')
+
+    # elif request.method == "POST" and roomTypeName.exists() == True:
+    #     context['error'] = "ชื่อประเภทสถานที่ซ้ำโปรดใช้ชื่ออื่น"
+    
+    return render(request, template_name="editroomtype.html", context=context)
+
+# เเก้ไขประเภทสถานที่
+@login_required(login_url='/management/')
+@permission_required('is_staff', login_url='/management/')
+def editFacility(request, facilityId):
+    context = {}
+
+    facility = Facility.objects.get(id=facilityId)
+    context['facility'] = facility
+
+    # facilityName = Facility.objects.filter(name=request.POST.get('name'))
+
+    if request.method == "POST":
+        facility.name = request.POST.get('name')
+        facility.description = request.POST.get('description')
+        facility.save()
+        return redirect('/management/allfacility')
+
+    # elif request.method == "POST" and facilityName.exists() == True:
+    #     context['error'] = "ชื่อสิ่งอำนวยความสะดวกซ้ำโปรดใช้ชื่ออื่น"
+    
+    return render(request, template_name="editfacility.html", context=context)
+    

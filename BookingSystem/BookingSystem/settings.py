@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mainapp',
     'profile',
     'management',
+    'api',
 
     # google auth
     'django.contrib.sites',

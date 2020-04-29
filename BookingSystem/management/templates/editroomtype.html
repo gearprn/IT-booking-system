@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+            <h4 class="">แก้ไขประเภทสถานที่</h4>
+        </div>
+    </div>
+    <hr>
+    <form method="POST" action="{% url 'editRoomType' roomTypeId=roomType.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group w-75">
+                    <label for="typeTitle">ประเภทสถานที่ * : </label>
+                    <input type="text" value="{{roomType.typeTitle}}" class="form-control ml-3" name="typeTitle" autocomplete="off" required>
+                </div>
+            </div>
+            <div class="col-6">
+                <p>สิ่งอำนวยความสะดวกที่มี :</p>
+                {% if hasFacilities.count == 0 %}
+                    <small>ยังไม่มีสิ่งอำนวยความสะดวก</small>
+                {% else %}
+                    <ul>
+                        {% for facility in hasFacilities %}
+                            <li class="mt-2">
+                                <span class="d-flex justify-content-between">
+                                    {{ facility.facility.name }} จำนวน {{ facility.amount }} เครื่อง
+                                    <a class="btn btn-outline-secondary" onclick="removeFacility({{ facility.id }})">ลบ</a>
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                
+            </div>
+            <div class="col-12 mt-2">
+                <p>เพิ่มสิ่งอำนวยความสะดวก :</p>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">สิ่งอำนวยความสะดวก</th>
+                            <th scope="col">จำนวน</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                
+                    <tbody>
+                        {% for facility in facilities %}
+                            <tr>
+                                <td>
+                                    <p>{{ facility.name }}</p>
+                                </td>
+                                <td>
+                                    <input type="number" min="0">
+                                </td>
+                                <td class="d-flex justify-content-end pr-0">
+                                    <a class="btn btn-outline-secondary" onclick="addNewFacility({{facility.id}}, {{ roomType.id }})">เพิ่ม</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-secondary mt-2">ยืนยัน</button>
+        <p class="text-danger mt-3" id="error">{{error}}</p>
+    </form>
+
+    <script>
+        function addNewFacility(facilityId, roomTypeId) {
+            amount = event.target.parentElement.previousElementSibling.firstElementChild.value
+            axios.post('/api/add/roomtype-facility', {
+                facilityId: facilityId,
+                roomTypeId: roomTypeId,
+                amount: amount
+            }).then((res) =>{
+                console.log(res)
+                location.reload()
+            }).catch((e) =>{
+                console.log(e)
+                $('#error')[0].innerHTML = 'กรุณาใส่จำนวนตัวเลขให้ถูกต้อง'
+            })
+        }
+
+        function removeFacility(roomType_facility_id) {
+            axios.post('/api/remove/roomtype-facility', {
+                roomType_facility_id: roomType_facility_id,
+            }).then((res) =>{
+                console.log(res)
+                location.reload()
+            }).catch((e) =>{
+                console.log(e)
+            })
+        }
+    </script>
+{% endblock content %}

@@ -18,6 +18,9 @@
                 {% endif %}
                 <p>รองรับคนได้: {{ room.size }} คน</p>
                 <p>สิ่งอำนวยความสะดวก</p>
+                {% if facilities.count == 0 %}
+                    <small><li>ยังไม่มีสิ่งอำนวยความสะดวก</li></small>
+                {% endif %}
                 <ul>
                     {% for fac in facilities %}
                         <li>{{fac.facility.name}} : {{fac.amount}} เครื่อง</li>

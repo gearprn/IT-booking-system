@@ -18,7 +18,12 @@ urlpatterns = [
     path('allRoom', views.allRoom, name='allRoom'),
     path('allType', views.allRoomType, name='allRoomType'),
     path('allfacility', views.allfacility, name='allfacility'),
+    path('room/e/<int:roomId>', views.editRoom, name="editRoom"),
+    path('roomtype/e/<int:roomTypeId>', views.editRoomType, name="editRoomType"),
+    path('facility/e/<int:facilityId>', views.editFacility, name="editFacility"),
+    path('history', views.myApprove, name="myApprove"),
     path('approve/<int:bookBy_id>', views.btnApprove, name='btnApprove'),
+
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

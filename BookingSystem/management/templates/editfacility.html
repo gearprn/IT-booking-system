@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+            <h4 class="">แก้ไขสิ่งอำนวยความสะดวก</h4>
+        </div>
+    </div>
+    <hr>
+    <form method="POST" action="{% url 'editFacility' facilityId=facility.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group w-75">
+                    <label for="name">ชื่อสิ่งอำนวยความสะดวก :</label>
+                    <input type="text" value="{{ facility.name }}" class="form-control ml-3" name="name" autocomplete="off" required>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group w-75">
+                    <label for="description">คำอธิบาย :</label>
+                    <input type="text" value="{{ facility.description }}" class="form-control ml-3" name="description" autocomplete="off" required>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-secondary mt-2">ยืนยัน</button>
+        <p class="text-danger mt-3">{{error}}</p>
+    </form>
+
+{% endblock content %}

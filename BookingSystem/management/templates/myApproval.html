@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row mt-3 mb-3">
+        <div class="col-6">
+            <h4 class="">ประวัติการอนุมัติคำร้องขอใช้สถานที่</h4>
+        </div>
+    </div>
+    <hr>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ชื่อโครงการ</th>
+                <th scope="col">สถานที่/ห้อง</th>
+                <th scope="col">ผู้ขอใช้สถานที่</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col">อนุมัติเมื่อ</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+         {% for book in myApproval %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.room.name }}</td>
+                    <td>{{ book.bookBy.first_name }} {{ book.bookBy.last_name }}</td>
+                    {% if book.approve.result == 'APPROVED' %}
+                        <td class="text-success">อนุมัติ</td>
+                    {% elif book.approve.result == 'DISAPPROVED' %}
+                        <td class="text-danger">ไม่ผ่านการอนุมัติ</td>
+                    {% endif %}
+                    <td>{{ book.approve.date|date:"d-M-Y" }}</td>
+                    <td class="d-flex justify-content-end pr-0">
+                        <a class="btn btn-outline-secondary mr-2" href="{% url 'detail' detail_id=book.id %}">ดูรายละเอียด</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}

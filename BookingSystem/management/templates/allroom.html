@@ -31,7 +31,7 @@
                             <td>อยู่ระหว่างการปรับปรุง</td>
                         {% endif %}
                     <td class="d-flex justify-content-end pr-0">
-                        <a class="btn btn-outline-secondary mr-2" href="{% url 'deleteRoom' room_id=room.id %}">แก้ไข</a>
+                        <a class="btn btn-outline-secondary mr-2" href="{% url 'editRoom' roomId=room.id %}">แก้ไข</a>
                         <a class="btn btn-outline-secondary" href="{% url 'deleteRoom' room_id=room.id %}">ลบ</a>
                     </td>
                 </tr>

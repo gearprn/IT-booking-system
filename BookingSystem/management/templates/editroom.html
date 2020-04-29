@@ -2,19 +2,19 @@
 {% block content %}
     <div class="row mt-3 mb-3">
         <div class="col-6">
-            <h4 class="">การเพิ่มสถานที่</h4>
+            <h4 class="">แก้ไขสถานที่</h4>
         </div>
     </div>
     <hr>
     <div>
-        <form method="POST" action="{% url 'createroom' %}" enctype="multipart/form-data"> {% comment %}  {% endcomment %}
+        <form method="POST" action="{% url 'editRoom' roomId=room.id %}" enctype="multipart/form-data"> {% comment %}  {% endcomment %}
             {% csrf_token %}
 
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
                         <label for="name">ชื่อห้อง/สถานที่ :</label>
-                        <input type="text" class="form-control ml-3" name="name" autocomplete="off" required>
+                        <input type="text" class="form-control ml-3" value="{{room.name}}" name="name" autocomplete="off" required>
                     </div>
                 </div>
 
@@ -22,7 +22,7 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="location">ที่อยู่สถานที่ :</label>
-                        <input type="text" class="form-control ml-3" name="location" autocomplete="off" required>
+                        <input type="text" class="form-control ml-3" value="{{room.location}}" name="location" autocomplete="off" required>
                     </div>
                 </div>
 
@@ -31,7 +31,11 @@
                         <label for="roomType_id">ชนิดของห้อง/สถานที่ :</label>
                         <select name="roomType_id" class="form-control ml-3" required>
                             {% for type in allType %}
-                                <option value="{{type.id}}">{{type.typeTitle}}</option>
+                                {% if type.id == room.roomType_id %}
+                                    <option value="{{type.id}}" selected>{{type.typeTitle}}</option>
+                                {% else %}
+                                    <option value="{{type.id}}">{{type.typeTitle}}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
                     </div>
@@ -40,19 +44,30 @@
                 <div class="col-6">
                     <div class="form-group">
                         <label for="size">ขนาดห้อง/สถานที่ :</label>
-                        <input type="number" class="form-control ml-3" name="size" min="0">
+                        <input type="number" value="{{room.size}}" class="form-control ml-3" name="size" min="0">
                     </div>
                 </div>
 
                 <div class="col-6">
                     <div class="form-group">
-                        <label for="photo" >รูปภาพ :</label><br>
-                        <input type="file" class="form-control ml-3 p-0" style="border: 0;" name="photo" accept="image/*" required>
+                        <label for="photo" >รูปภาพ <small>หากต้องการใช้รูปเดิมไม่ต้องใส่</small> :</label>
+                        <input type="file" class="ml-3" style="border: 0;" name="photo" accept="image/*">
                     </div>
                 </div>
+
+                {% comment %} <div class="col-6">
+                    <img src="{{room.photo.url}}" class="event-img" alt="">
+                </div> {% endcomment %}
             </div>
             <button type="submit" class="btn btn-secondary mt-2">ยืนยัน</button>
+            <p class="text-danger mt-3">{{error}}</p>
         </form>
     </div>
-    
+    <style scope>
+        .event-img {
+            width: 100%;
+            heigth: 200px;
+            object-fit: cover;
+        }
+    </style>
 {% endblock content %}

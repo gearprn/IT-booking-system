@@ -23,7 +23,7 @@
                     <td>{{facility.name}}</td>
                     <td>{{facility.description}}</td>
                     <td class="d-flex justify-content-end pr-0">
-                        <a class="btn btn-outline-secondary mr-2" href="{% url 'deleteFacility' facility_id=facility.id %}">แก้ไข</a>
+                        <a class="btn btn-outline-secondary mr-2" href="{% url 'editFacility' facilityId=facility.id %}">แก้ไข</a>
                         <a class="btn btn-outline-secondary" href="{% url 'deleteFacility' facility_id=facility.id %}">ลบ</a>
                     </td>
 
