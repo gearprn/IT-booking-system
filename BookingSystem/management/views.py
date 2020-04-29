@@ -6,19 +6,26 @@ from django.template.context_processors import request
 
 import datetime
 from mainapp.models import (Booking, Facility, Room, RoomType, RoomType_Facility, Student, Approve)
+from .forms import adminSignInForm
 
 # Create your views here.
 
 def adminSignIn(request):
     context = {}
     if request.method == 'POST':
-        user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
-        if user is not None and user.is_staff:
-            login(request, user)
-            return redirect('/management/request')
-        else:
-            context['error'] = 'username หรือ password ไม่ถูกต้อง'
-            return render(request, template_name='signin.html', context=context)
+        form = adminSignInForm(request.POST)
+
+        if form.is_valid():
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None and user.is_staff:
+                login(request, user)
+                return redirect('/management/request')
+            else:
+                context['error'] = 'username หรือ password ไม่ถูกต้อง'
+                return render(request, template_name='signin.html', context=context)
+    
+    form = adminSignInForm()
+    context['form'] = form
 
     return render(request, template_name='signin.html', context=context)
 
