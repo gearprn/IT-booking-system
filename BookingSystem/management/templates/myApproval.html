@@ -6,6 +6,7 @@
         </div>
     </div>
     <hr>
+    {% if myApproval.count != 0 %}
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -37,4 +38,8 @@
             {% endfor %}
         </tbody>
     </table>
+    {% else %}
+        <p>คุณยังไม่เคยได้ให้การอนุมัติคำร้องขอใช้สถานที่ใดๆ</p>
+    {% endif %}
+
 {% endblock content %}
