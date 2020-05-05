@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mt-4">
+        <h4>ตารางการขอใช้สถานที่{% if user.is_staff %}ทั้งหมด{% endif %} </h4>{% if user.is_staff == false %}<small>*เเสดงเฉพาะโครงการที่ยังอยู่ในการดำเนินการ หรือ ยังไม่เริ่มดำเนินการ</small>{% endif %}
+        <hr>
+    </div>
+    {% if bookings.count == 0 %}
+        <p>ยังไม่มีโครงการที่ดำเนินการอยู่ในขณะนี้</p>
+    {% else %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ชื่อโครงการ</th>
+                    <th scope="col">ผู้ขอ</th>
+                    <th scope="col">จุดประสงค์</th>
+                    <th scope="col">วันที่ใช้</th>
+                    <th scope="col">เวลาที่ใช้</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in bookings %}
+                    <tr>
+                        <td>{{book.title}}</td>
+                        <td>{{book.bookBy.first_name}} {{book.bookBy.last_name}}</td>
+                        <td>{{book.purpose}}</td>
+                        {% if book.startDate != book.endDate %}
+                            <td>{{book.startDate|date:"d-M-Y"}} ถึง {{book.endDate|date:"d-M-Y"}}</td>
+                        {% else %}
+                            <td>{{book.startDate|date:"d-M-Y"}}</td>
+                        {% endif %}
+                        <td>{{book.startTime|date:"H:i"}} น. - {{book.endTime|date:"H:i"}} น.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    
+{% endblock content %}

@@ -23,7 +23,7 @@ urlpatterns = [
     path('facility/e/<int:facilityId>', views.editFacility, name="editFacility"),
     path('history', views.myApprove, name="myApprove"),
     path('approve/<int:bookBy_id>', views.btnApprove, name='btnApprove'),
-
+    path('book/schedule/', views.schedule, name="adminSchedule")
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

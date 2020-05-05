@@ -41,6 +41,9 @@
 
                     {% if user.is_staff %}
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'adminSchedule' %}">ตารางการใช้งานสถานที่</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'myApprove' %}">ประวัติการอนุมัติ</a>
                         </li>
                         <li class="nav-item">
@@ -62,6 +65,15 @@
 
                         {% if user.is_authenticated %}
                             <li class="nav-item">
+                                <a class="nav-link" href="{% url 'index' %}">หน้าหลัก</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'schedule' %}">ตารางการขอใช้สถานที่</a>
+                            </li>
+                            {% comment %} <li class="nav-item">
+                                <a class="nav-link" href="{% url 'roomStatus' %}">ความพร้อมของสถานที่</a>
+                            </li> {% endcomment %}
+                            <li class="nav-item">
                                 <a class="nav-link" href="{% url 'profile' %}">บัญชีของฉัน</a>
                             </li>
                             <li class="nav-item">
@@ -69,6 +81,12 @@
                             </li>
                         {% else %}
                             {% if request.path != '/management/' %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'index' %}">หน้าหลัก</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'schedule' %}">ตารางการขอใช้สถานที่</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% provider_login_url 'google' %}">เข้าสู่ระบบ</a>
                                 </li>

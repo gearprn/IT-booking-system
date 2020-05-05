@@ -29,9 +29,6 @@ def adminSignIn(request):
                 context['error'] = 'username หรือ password ไม่ถูกต้อง'
                 return render(request, template_name='signin.html', context=context)
     
-    
-    
-
     return render(request, template_name='signin.html', context=context)
 
 # คำร้องขอทั้งหมด
@@ -263,4 +260,15 @@ def editFacility(request, facilityId):
     #     context['error'] = "ชื่อสิ่งอำนวยความสะดวกซ้ำโปรดใช้ชื่ออื่น"
     
     return render(request, template_name="editfacility.html", context=context)
+
+# ดูตารางการใช้งานสถานที่ทั้งหมด
+@login_required(login_url='/management/')
+@staff_member_required(login_url='/management/')
+def schedule(request):
+    context = {}
+
+    booking = Booking.objects.filter(approve__result="APPROVED").order_by('-startDate')
+    context['bookings'] = booking
+
+    return render(request, template_name="schedule.html", context=context)
     
