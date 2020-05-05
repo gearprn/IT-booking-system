@@ -67,6 +67,22 @@ def search(request):
         
     return render(request, template_name='search.html', context=context)
 
+def schedule(request):
+    context = {}
+
+    booking = Booking.objects.filter(endDate__gte=datetime.datetime.now(), approve__result="APPROVED").order_by('startDate')
+    context['bookings'] = booking
+
+    return render(request, template_name="schedule.html", context=context)
+
+def roomStatus(request):
+    context = {}
+    
+    rooms = Room.objects.all()
+    context['rooms'] = rooms
+
+    return render(request, template_name="roomStatus.html", context=context)
+
 def book(request, roomId):
     context = {}
 

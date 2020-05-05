@@ -32,10 +32,64 @@
                         {% endif %}
                     <td class="d-flex justify-content-end pr-0">
                         <a class="btn btn-outline-secondary mr-2" href="{% url 'editRoom' roomId=room.id %}">แก้ไข</a>
-                        <a class="btn btn-outline-secondary" href="{% url 'deleteRoom' room_id=room.id %}">ลบ</a>
+                        <a class="btn btn-outline-secondary text-gray" data-toggle="modal" data-target="#exampleModalCenter" onclick="selectRoom({{room.id}})">ลบ</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-9">
+                            <p class="mb-0">ยืนยันที่จะลบสถานที่นี้</p>
+                        </div>
+                        <div class="col-3">
+                            <button type="button" class="close normal-text" data-dismiss="modal" aria-label="Close">
+                                <p aria-hidden="true" class="mb-0">ปิด</p>
+                            </button>
+                        </div>
+                        <div class="col-12">
+                            <hr>
+                        </div>
+                        <div class="col-12 modal-content-height">
+                            <p>หากลบสถานที่นี้คำร้องขอใช้ถานที่ทั้งหมดจะถูกลบไปด้วย</p>
+                            <a class="btn btn-outline-secondary ml-auto" onclick="deleteRoom()">ยืนยัน</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style scoped>
+        .text-gray {
+            color: #6c757d !important;
+        }
+
+        .text-gray:hover {
+            color: #fff !important;
+        }
+
+        .normal-text {
+            font-size: 16px;
+        }
+
+        .modal-content {
+            border-radius: 0;
+            border: 0;
+        }
+    </style>
+    <script>
+        var selectedRoomId = null
+
+        function deleteRoom() {
+            window.location.replace('/management/deleteRoom/'+selectedRoomId);
+        }
+
+        function selectRoom(Id) {
+            selectedRoomId = Id
+        }
+    </script>
 {% endblock %}

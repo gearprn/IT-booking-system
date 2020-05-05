@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mt-4">
+        <h4>ความพร้อมของสถานที่</h4>
+        <hr>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ชื่อ</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">สถานที่</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+         {% for room in rooms %}
+            <tr>
+                <td>{{room.name}}</td>
+                <td>{{room.roomType.typeTitle}}</td>
+                <td>{{room.location}}</td>
+                {% if room.availableStatus == 'AVAILABLE' %}
+                    <td>ใช้งานได้</td>
+                    <td class="d-flex justify-content-end pr-0">
+                        <a class="btn btn-outline-secondary" href="{% url 'book' roomId=room.id %}">จอง</a>
+                    </td>
+                {% else %}
+                    <td>อยู่ระหว่างการปรับปรุง</td>
+                    <td class="d-flex justify-content-end pr-0">
+                        <a class="btn btn-outline-secondary disabled" href="">จอง</a>
+                    </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+{% endblock content %}

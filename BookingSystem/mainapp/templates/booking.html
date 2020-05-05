@@ -33,7 +33,11 @@
         {% if request.user.is_authenticated %}
             <div class="row mb-5">
                 <div class="col-12">
-                    <form action="{% url 'createBook' roomId=room.id %}" method="post">
+                    {% if room.availableStatus == 'AVAILABLE' %}
+                        <form action="{% url 'createBook' roomId=room.id %}" method="post">
+                    {% else %}
+                        <form action="{% url 'index' %}" method="post">
+                    {% endif %}
                     {% csrf_token %}
                         <div class="row mt-3">
                             <div class="col-sm-12 col-md-6">
@@ -117,14 +121,43 @@
                                 {% endfor %}
                             </div>
                         </div>
-                    
-                        <button type="submit" class="btn btn-outline-secondary mt-3">สร้างคำร้องขอ</button>
+                        {% if room.availableStatus == 'AVAILABLE' %}
+                            <button type="submit" class="btn btn-outline-secondary mt-3">สร้างคำร้องขอ</button>
+                        {% else %}
+                            <button type="button" class="btn btn-outline-secondary mt-3" data-toggle="modal" data-target="#exampleModalCenter">
+                                อยู่ระหว่างการปรับปรุง
+                            </button>
+                        {% endif %}
                     </form>
                 </div>
             </div>
         {% else %}
             <a class="btn btn-outline-secondary" href="{% provider_login_url 'google' %}">เข้าสู้ระบบ</a>
         {% endif %}
+    </div>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body p-4">
+                    <div class="row">
+                        <div class="col-9">
+                            <p class="mb-0">ไม่สามารถจองได้</p>
+                        </div>
+                        <div class="col-3">
+                            <button type="button" class="close normal-text" data-dismiss="modal" aria-label="Close">
+                                <p aria-hidden="true" class="mb-0">ปิด</p>
+                            </button>
+                        </div>
+                        <div class="col-12">
+                            <hr>
+                        </div>
+                        <div class="col-12 modal-content-height">
+                            เนื่องจากสถานที่นี้อยู่ระหว่างการปรับปรุง
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <style scoped>
         .event-img {
@@ -133,8 +166,22 @@
             object-fit: cover;
         }
 
+        .modal-content-bg {
+            background: #C4C4C4;
+            border-radius: 12px;
+        }
+
         .bg-gray {
             background: #C4C4C4;
+        }
+
+        .normal-text {
+            font-size: 16px;
+        }
+
+        .modal-content {
+            border-radius: 0;
+            border: 0;
         }
     </style>
 {% endblock content %}
