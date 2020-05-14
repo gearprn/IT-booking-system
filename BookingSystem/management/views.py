@@ -181,7 +181,22 @@ def btnApprove(request, bookBy_id):
     approve.result = 'APPROVED'
     approve.save()
 
-    return redirect('/management/request')
+    return redirect('/management/' + str(bookBy_id))
+
+# การอนุมัติ/ไม่อนุมัติให้ใช้สถานที่
+@login_required(login_url='/management/')
+@staff_member_required(login_url='/management/')
+def btnDisapprove(request, bookBy_id):
+    bookingStatus = Booking.objects.get(id=bookBy_id)
+    approve = Approve.objects.get(id=bookingStatus.approve_id)
+
+    # เก็บว่าใครเป็นคนอนุมัติเเละเวลาไหน
+    approve.date = datetime.datetime.now()
+    approve.approveBy_id = request.user.id
+    approve.result = 'DISAPPOVED'
+    approve.save()
+
+    return redirect('/management/' + str(bookBy_id))
 
 # เเก้ไขสถานที่
 @login_required(login_url='/management/')

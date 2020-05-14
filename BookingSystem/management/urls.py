@@ -23,6 +23,7 @@ urlpatterns = [
     path('facility/e/<int:facilityId>', views.editFacility, name="editFacility"),
     path('history', views.myApprove, name="myApprove"),
     path('approve/<int:bookBy_id>', views.btnApprove, name='btnApprove'),
+    path('disapprove/<int:bookBy_id>', views.btnDisapprove, name='btnDisapprove'),
     path('book/schedule/', views.schedule, name="adminSchedule")
 ]
 urlpatterns += staticfiles_urlpatterns()

@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-12">
                     <a class="btn btn-success" href="{% url 'btnApprove' bookBy_id=detail.id%}">อนุมัติ</a>
-                    <a class="btn btn-danger" href="{% url 'request' %}">ไม่อนุมัติ</a>
+                    <a class="btn btn-danger" href="{% url 'btnDisapprove' bookBy_id=detail.id %}">ไม่อนุมัติ</a>
                 </div>
             </div>
         {% else %}
@@ -26,7 +26,7 @@
                     {% if detail.approve.result == "APPROVED" %}
                         <p>สถานะ : <span class="text-success">อนุมัติเเล้ว</span></p>
                     {% else %}
-                        <p>สถานะ : <span class="text-success">ไม่ผ่านการอนุมัติ</span></p>
+                        <p>สถานะ : <span class="text-warning">ไม่ผ่านการอนุมัติ</span></p>
                     {% endif %}
 
                     <p>อนุมัติโดย : {{ detail.approve.approveBy.username }} เมื่อ : {{ detail.approve.date }} </p>
